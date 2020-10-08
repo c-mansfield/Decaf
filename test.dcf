@@ -1,0 +1,8 @@
+class Program {
+	
+	int topLevel;
+	
+	int myMethod(int myval, int b, boolean c) {
+	
+	}
+}
