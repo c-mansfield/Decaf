@@ -147,6 +147,36 @@ public interface DecafListener extends ParseTreeListener {
 	 */
 	void exitLiteral(DecafParser.LiteralContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link DecafParser#int_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterInt_literal(DecafParser.Int_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DecafParser#int_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitInt_literal(DecafParser.Int_literalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DecafParser#bool_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterBool_literal(DecafParser.Bool_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DecafParser#bool_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitBool_literal(DecafParser.Bool_literalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DecafParser#char_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterChar_literal(DecafParser.Char_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DecafParser#char_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitChar_literal(DecafParser.Char_literalContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link DecafParser#bin_op}.
 	 * @param ctx the parse tree
 	 */
