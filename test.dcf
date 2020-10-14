@@ -1,8 +1,13 @@
 class Program {
 	
-	int topLevel;
+	int c;
 	
-	int myMethod(int myval, int b, boolean c) {
-	
+	void main() {
+    	int b;
+    	
+    	c = b + 1;
+    	c = 1;
+    	
 	}
+			
 }

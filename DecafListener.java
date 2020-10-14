@@ -137,25 +137,15 @@ public interface DecafListener extends ParseTreeListener {
 	 */
 	void exitMethod_call(DecafParser.Method_callContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link DecafParser#literal}.
+	 * Enter a parse tree produced by {@link DecafParser#data_literal}.
 	 * @param ctx the parse tree
 	 */
-	void enterLiteral(DecafParser.LiteralContext ctx);
+	void enterData_literal(DecafParser.Data_literalContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link DecafParser#literal}.
+	 * Exit a parse tree produced by {@link DecafParser#data_literal}.
 	 * @param ctx the parse tree
 	 */
-	void exitLiteral(DecafParser.LiteralContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link DecafParser#int_literal}.
-	 * @param ctx the parse tree
-	 */
-	void enterInt_literal(DecafParser.Int_literalContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link DecafParser#int_literal}.
-	 * @param ctx the parse tree
-	 */
-	void exitInt_literal(DecafParser.Int_literalContext ctx);
+	void exitData_literal(DecafParser.Data_literalContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DecafParser#bool_literal}.
 	 * @param ctx the parse tree
@@ -176,6 +166,16 @@ public interface DecafListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitChar_literal(DecafParser.Char_literalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DecafParser#int_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterInt_literal(DecafParser.Int_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DecafParser#int_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitInt_literal(DecafParser.Int_literalContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DecafParser#bin_op}.
 	 * @param ctx the parse tree

@@ -171,25 +171,13 @@ public class DecafBaseListener implements DecafListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLiteral(DecafParser.LiteralContext ctx) { }
+	@Override public void enterData_literal(DecafParser.Data_literalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLiteral(DecafParser.LiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInt_literal(DecafParser.Int_literalContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInt_literal(DecafParser.Int_literalContext ctx) { }
+	@Override public void exitData_literal(DecafParser.Data_literalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -214,6 +202,18 @@ public class DecafBaseListener implements DecafListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitChar_literal(DecafParser.Char_literalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInt_literal(DecafParser.Int_literalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInt_literal(DecafParser.Int_literalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

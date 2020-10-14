@@ -51,16 +51,14 @@ ID : ALPHA ALPHA_NUM*;
 fragment ALPHA : [a-zA-Z_];
 fragment ALPHA_NUM : ALPHA | DIGIT;
 fragment DIGIT : [0-9];
-fragment CHAR : [\u0020-\u007E];
+fragment GOOD_CHARS : [ -~];
+fragment DOUBLE_CHARS : '\\' ('n' | '"' | '\'' | '\\');
+CHAR : '\'' (GOOD_CHARS | DOUBLE_CHARS) '\'';
 
-fragment DECIMAL_LITERAL : DIGIT DIGIT*;
-fragment HEX_LITERAL : '0x' HEX_DIGIT HEX_DIGIT*; 
+DECIMAL_LITERAL : DIGIT DIGIT*;
+HEX_LITERAL : '0x' HEX_DIGIT HEX_DIGIT*; 
 fragment HEX_DIGIT : DIGIT | [a-fA-F];
-STRING_LITERAL : DOUBLEQUOTE CHAR+ DOUBLEQUOTE;
-INT_LITERAL : DECIMAL_LITERAL | HEX_LITERAL;
-BOOL_LITERAL : TRUE | FALSE;
-CHAR_LITERAL : SINGLEQUOTE CHAR SINGLEQUOTE;
-
+STRING_LITERAL : DOUBLEQUOTE (GOOD_CHARS | DOUBLE_CHARS)* DOUBLEQUOTE;
 
 COMMENT : DBLSLASH ~'\n'* '\n' -> skip;
 
@@ -77,7 +75,7 @@ method_decl : (data_type | VOID) ID LROUND (method_arg (COMMA method_arg)*)? RRO
 
 method_arg: data_type ID;
 
-field_arg: ID | ID LSQUARE INT_LITERAL RSQUARE;
+field_arg: ID | ID LSQUARE int_literal RSQUARE;
 
 data_type : INT | BOOL;
 
@@ -100,16 +98,22 @@ assign_op : EQ | PLUSEQ | MINUSEQ;
 
 expr : location 
 	   | method_call
-	   | literal
+	   | data_literal
 	   | expr bin_op expr
 	   | SUB expr
 	   | EXCLAMATION expr
 	   | LROUND expr RROUND;
 	   
 method_call : method_name LROUND ( expr (COMMA expr)* )? RROUND
-			  | CALLOUT LROUND STRING_LITERAL ( COMMA callout_arg (COMMA callout_arg)* )? RROUND;
+			  | CALLOUT LROUND STRING_LITERAL (COMMA callout_arg)* RROUND;
 			  
-literal : INT_LITERAL | BOOL_LITERAL | CHAR_LITERAL;
+data_literal : int_literal | bool_literal | char_literal;
+
+bool_literal : TRUE | FALSE;
+
+char_literal : CHAR;
+
+int_literal : DECIMAL_LITERAL | HEX_LITERAL;
 
 bin_op : arith_op | rel_op | eq_op | cond_op;
 
