@@ -1,13 +1,21 @@
 class Program {
 	
-	int c;
+	int a, b[1];
+	boolean test;
+	
+	int funcTest(boolean c) {
+    	
+    	c = test + a;
+    	
+    	return c;
+	
+	}
 	
 	void main() {
-    	int b;
+    	    	
     	
-    	c = b + 1;
-    	c = 1;
     	
 	}
-			
+	
+				
 }

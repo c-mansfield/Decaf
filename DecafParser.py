@@ -614,7 +614,6 @@ class DecafParser ( Parser ):
         def int_literal(self):
             return self.getTypedRuleContext(DecafParser.Int_literalContext,0)
 
-
         def RSQUARE(self):
             return self.getToken(DecafParser.RSQUARE, 0)
 

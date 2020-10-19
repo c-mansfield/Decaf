@@ -44,7 +44,7 @@ class SymbolTable:
                 if symbol.id == id:
                     return symbol
         return None
-
+    
 class VarSymbol:
     def __init__(self, id, type, line, size, mem):
         self.id = id

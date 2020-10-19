@@ -58,7 +58,6 @@ class DecafVisitor(ParseTreeVisitor):
     def visitLocation(self, ctx:DecafParser.LocationContext):
         return self.visitChildren(ctx)
 
-
     # Visit a parse tree produced by DecafParser#assign_op.
     def visitAssign_op(self, ctx:DecafParser.Assign_opContext):
         return self.visitChildren(ctx)
