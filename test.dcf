@@ -1,21 +1,18 @@
 class Program {
-	
-	int a, b[1];
-	boolean test;
-	
-	int funcTest(boolean c) {
-    	
-    	c = test + a;
-    	
-    	return c;
-	
-	}
-	
-	void main() {
-    	    	
-    	
-    	
-	}
-	
-				
+    
+    int a[2];
+
+    int foo(int c, int d) {
+
+        int s;
+
+        s += c;
+
+    }
+
+    void main() {
+        int e;
+        e = foo(3, 2);
+    }
+
 }

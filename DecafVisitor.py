@@ -71,11 +71,9 @@ class DecafVisitor(ParseTreeVisitor):
     def visitMethod_call(self, ctx:DecafParser.Method_callContext):
         return self.visitChildren(ctx)
 
-
     # Visit a parse tree produced by DecafParser#data_literal.
     def visitData_literal(self, ctx:DecafParser.Data_literalContext):
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by DecafParser#bool_literal.
     def visitBool_literal(self, ctx:DecafParser.Bool_literalContext):

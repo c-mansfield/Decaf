@@ -51,14 +51,15 @@ ID : ALPHA ALPHA_NUM*;
 fragment ALPHA : [a-zA-Z_];
 fragment ALPHA_NUM : ALPHA | DIGIT;
 fragment DIGIT : [0-9];
-fragment GOOD_CHARS : [ -~];
+
+fragment BAD_CHARS : ~('\n' | '"' | '\'' | '\\');
 fragment DOUBLE_CHARS : '\\' ('n' | '"' | '\'' | '\\');
-CHAR : '\'' (GOOD_CHARS | DOUBLE_CHARS) '\'';
+CHAR : '\'' (BAD_CHARS | DOUBLE_CHARS) '\'';
 
 DECIMAL_LITERAL : DIGIT DIGIT*;
 HEX_LITERAL : '0x' HEX_DIGIT HEX_DIGIT*; 
 fragment HEX_DIGIT : DIGIT | [a-fA-F];
-STRING_LITERAL : DOUBLEQUOTE (GOOD_CHARS | DOUBLE_CHARS)* DOUBLEQUOTE;
+STRING_LITERAL : DOUBLEQUOTE (BAD_CHARS | DOUBLE_CHARS)* DOUBLEQUOTE;
 
 COMMENT : DBLSLASH ~'\n'* '\n' -> skip;
 
