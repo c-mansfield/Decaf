@@ -39,7 +39,7 @@ class DecafSemanticChecker(DecafVisitor):
                 print('Error on line', line_num,', variable \'', f.ID().getText(),'\' has already been declared on line',field_symbol.line)
                 
             else:
-                
+
                 field_symbol = VarSymbol(id=f.ID().getText(),
                                          type=data_type,
                                          line=line_num,
@@ -86,30 +86,89 @@ class DecafSemanticChecker(DecafVisitor):
         self.visitChildren(ctx)
         self.body += 'ret\n'
         self.st.exitScope()
-        
+
+    def visitVar_decl(self, ctx: DecafParser.Var_declContext):
+        line_num = ctx.start.line
+        var_ids = ctx.ID()
+        data_type = ctx.data_type().getText()
+
+        for v in var_ids:
+
+            id_symbol = self.st.probe(v.getText())
+
+            if id_symbol != None:
+
+                # 1
+                print('Error on line ' + str(
+                    line_num) + ', variable \'' + v.getText() + '\' has already been declared on line ' + str(
+                    id_symbol.line))
+
+            else:
+
+                id_symbol = VarSymbol(id=v.getText(),
+                                      type=data_type,
+                                      line=line_num,
+                                      size=8,
+                                      mem=STACK)
+
+                self.st.addSymbol(id_symbol)
+
+        self.visitChildren(ctx)
+
     def visitExpr(self, ctx:DecafParser.ExprContext):
                 
         if ctx.data_literal():
-            int_literal = ctx.data_literal().getText()
-            self.body += 'movq $' + int_literal + ', %rax\n'
+            if ctx.data_literal().int_literal() != None:
+                int_literal = ctx.data_literal().getText()
+                self.body += 'movq $' + int_literal + ', %rax\n'
             
         elif ctx.location():
             loc_name = ctx.location().getText()
             location = self.st.lookup(loc_name)
-            
-            addr = str(location.getAddr())
-            
+
+            addr = location.getAddr()
+
             if location.mem == HEAP:
-                self.body += 'movq ' + addr + '(%rbp), %rax\n'
+                self.body += 'movq ' + str(addr) + '(%rbp), %rax\n'
             else:
-                self.body += 'movq ' + addr + '(%rsp), %rax\n'        
-                
+                self.body += 'movq ' + str(addr) + '(%rsp), %rax\n'
+
+        elif len(ctx.expr()) == 2:
+            self.visit(ctx.expr(0))
+            self.body += 'movq %rax, %r10\n'
+
+            self.st.stack_pointer[-1] += 8
+            self.body += 'movq %r10, ' + str(-self.st.stack_pointer[-1]) + '(%rsp)\n'
+
+            self.visit(ctx.expr(1))
+            self.body += 'movq %rax, %r11\n'
+
+            self.body += 'movq ' + str(-self.st.stack_pointer[-1]) + '(%rsp), %r10\n'
+            self.st.stack_pointer[-1] -= 8
+
+            if ctx.bin_op().arith_op().ADD():
+                self.body += 'addq %r10, %r11\n'
+            elif ctx.bin_op().arith_op().SUB():
+                self.body += 'subq %r11, %r10\n'
+                self.body += 'movq %r10, %r11\n'
+            elif ctx.bin_op().arith_op().MUL():
+                self.body += 'imul %r10, %r11\n'
+            elif ctx.bin_op().arith_op().DIV():
+                self.body += 'movq $0, %rdx\n'
+                self.body += 'movq %r11, %rbx\n'
+                self.body += 'movq %r10, %rax\n'
+                self.body += 'idiv %rbx\n'
+                self.body += 'movq %rax, %r11\n'
+
+            self.body += 'movq %r11, %rax\n'
+
         else:
             self.visitChildren(ctx)
 
     def visitMethod_call(self, ctx:DecafParser.Method_callContext):
 
         if ctx.method_name():
+
             for i in range(len(ctx.expr())):
                 self.visit(ctx.expr(i))
                 self.st.stack_pointer[-1] += 8
@@ -119,7 +178,7 @@ class DecafSemanticChecker(DecafVisitor):
             for z in range(len(ctx.expr())):
                 ptr = self.st.stack_pointer[-1]
                 reg = param_registers[z]
-                self.body += 'movq ' + ptr + '(% rsp), ' + reg + '\n'
+                self.body += 'movq ' + str(ptr) + '(% rsp), ' + reg + '\n'
                 self.st.stack_pointer[-1] -= 8
 
             #Current pos stored in symbol table
@@ -134,7 +193,8 @@ class DecafSemanticChecker(DecafVisitor):
         elif ctx.CALLOUT():
             pass
 
-        self.visitChildren(ctx)
+        else:
+            self.visitChildren(ctx)
             
 filein = open('test.dcf', 'r')
 lexer = DecafLexer(ant.InputStream(filein.read()))

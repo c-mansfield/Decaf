@@ -4,9 +4,9 @@ class Program {
 
     int foo(int c, int d) {
 
-        int s;
+        d = 10 + c;
 
-        s += c;
+        return d;
 
     }
 
